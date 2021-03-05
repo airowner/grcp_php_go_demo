@@ -1,0 +1,63 @@
+# Below is not the lint and breaking configuration we recommend!
+# This just just what googleapis passes.
+# For lint, we recommend having the single value "DEFAULT" in "use"
+# with no values in "except".
+# For breaking, we recommend having the single value "FILE" in use.
+# See https://docs.buf.build/lint-usage
+# See https://docs.buf.build/breaking-usage
+version: v1beta1
+
+# must be remote/owner/repository
+name: buf.build/myuser/myrepo
+
+# after edit run: buf beta mod update
+deps:
+  - buf.build/beta/googleapis:main
+
+build:
+  # protoc的 --proto_path -I 选项，提供path
+  # 如果需要import proto文件， 那么应该相对于 roots 定义的目录导入
+  roots:
+    - proto
+  # 可选参数 排除目录
+  excludes:
+    - proto/xxx
+
+# proto 代码检查
+lint:
+  use:
+    - BASIC
+    - FILE_LOWER_SNAKE_CASE
+  except:
+    - ENUM_NO_ALLOW_ALIAS
+    - IMPORT_NO_PUBLIC
+    - PACKAGE_AFFINITY
+    - PACKAGE_DIRECTORY_MATCH
+    - PACKAGE_SAME_DIRECTORY
+
+# 兼容性检查
+# * local compare breaking
+# ```bash
+# buf build -o image.bin
+# edit file ...
+# buf breaking --against image.bin
+# rm image.bin
+# ```
+# or in /path/to/new
+# ```bash
+# buf build -o /path/to/origin | buf breaking --against -
+# ```
+#
+# * local git breaking
+# ```bash
+# buf breaking --against .git#branch=master|tag=v1.0.0
+# ```
+#
+# * remote git breaking
+# ```bash
+# buf breaking --against "https://github.com/googleapis/googleapis/archive/${GOOGLEAPIS_COMMIT}.tar.gz#strip_components=1"
+# ```
+#
+breaking:
+  use:
+    - WIRE_JSON

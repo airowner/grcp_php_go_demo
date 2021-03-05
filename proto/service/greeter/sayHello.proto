@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package api.service;
+
+option java_package = "";
+option java_outer_classname = "";
+option java_multiple_files = true;
+option objc_class_prefix = "";
+// golang import path
+option go_package = "app/api/greeter";
+option php_namespace = "SDK\\Api\\Greeter";
+
+import "common/common.proto";
+import "google/api/annotations.proto";
+
+// The greeting service definition.
+service Hello {
+  // Sends a greeting
+  rpc Say (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      get: "/hello"
+    };
+  }
+  // Sends another greeting
+  rpc SayAgain (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      get: "/hello_again"
+    };
+  }
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  common.RequestHeader header = 1;
+  string name = 2;
+}
+
+// The response message containing the greetings
+message HelloReply {
+  common.ReplyHeader header = 1;
+  string message = 2;
+}

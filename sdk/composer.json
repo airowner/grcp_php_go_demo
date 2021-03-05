@@ -1,0 +1,27 @@
+{
+    "name": "airowner/sdk",
+    "description": "grpc php sdk demo",
+    "type": "library",
+    "require": {
+        "php": ">=7.3.0",
+        "ext-grpc": "^1.35",
+        "grpc/grpc": "^1.36",
+        "google/protobuf": "^3.15"
+    },
+    "suggest": {
+        "ext-protobuf": "For better performance, install the protobuf C extension.",
+        "google/protobuf": "To get started using grpc quickly, install the native protobuf library."
+    },
+    "autoload": {
+        "psr-4": {
+            "GPBMetadata\\": "src/GPBMetadata/",
+            "SDK\\Api\\": "src/SDK/Api/",
+            "SDK\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,67 @@
+
+version: v1beta1
+
+plugins:
+
+  # The name of the plugin.
+  # Required.
+  # By default, buf generate will look for a binary named protoc-gen-NAME on your $PATH
+  - name: go
+    # The the relative output directory.
+    # Required.
+    out: app/api
+    # Any options to provide to the plugin.
+    # Optional.
+    # Can be either a single string or list of strings.
+    opt:
+      - paths=source_relative
+    # The custom path to the plugin binary, if not protoc-gen-NAME on your $PATH.
+    # Optional
+    #path: custom-gen-go
+
+    # The generation strategy to use. There are two options:
+    #
+    # 1. "directory"
+    #
+    #   This will result in buf splitting the input files by directory, and making separate plugin
+    #   invocations in parallel. This is roughly the concurrent equivalent of:
+    #
+    #     for dir in $(find . -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq); do
+    #       protoc -I . $(find "${dir}" -name '*.proto')
+    #     done
+    #
+    #   Almost every Protobuf plugin either requires this, or works with this,
+    #   and this is the recommended and default value.
+    #
+    # 2. "all"
+    #
+    #   This will result in buf making a single plugin invocation with all input files.
+    #   This is roughly the equivalent of:
+    #
+    #     protoc -I . $(find . -name '*.proto')
+    #
+    #   This is needed for certain plugins that expect all files to be given at once.
+    #
+    # Optional. If omitted, "directory" is used. Most users should not need to set this option.
+    strategy: directory
+
+  - name: go-grpc
+    out: app/api
+    opt:
+      - paths=source_relative
+      - require_unimplemented_servers=false
+
+  - name: grpc-gateway
+    out: app/api
+    opt:
+      - paths=source_relative
+      - allow_repeated_fields_in_body=true
+
+  - name: openapiv2
+    out: app/api
+    opt:
+      - allow_repeated_fields_in_body=true
+
+        #- name: php
+        #  out: php
+        #  path: ./grpc_php_plugin

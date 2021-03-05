@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package api.service;
+
+option java_package = "";
+option java_outer_classname = "";
+option java_multiple_files = true;
+option objc_class_prefix = "";
+// golang import path
+option go_package = "app/api/goodbye";
+option php_namespace = "SDK\\Api\\Greeter";
+// option php_class_prefix = "Haha";
+
+import "common/common.proto";
+import "google/api/annotations.proto";
+
+// The greeting service definition.
+service Goodbye {
+  // Sends a greeting
+  rpc Say (GoodbyeRequest) returns (GoodbyeReply) {
+    option (google.api.http) = {
+      get: "/goodbye"
+    };
+  }
+  // Sends another greeting
+  rpc SayAgain (GoodbyeRequest) returns (GoodbyeReply) {
+    option (google.api.http) = {
+      get: "/goodbye_again"
+    };
+  }
+}
+
+// The request message containing the user's name.
+message GoodbyeRequest {
+  common.RequestHeader header = 1;
+  string name = 2;
+}
+
+// The response message containing the greetings
+message GoodbyeReply {
+  common.ReplyHeader header = 1;
+  string message = 2;
+}
