@@ -3,14 +3,13 @@ package main
 import (
 	"context"
 	"flag"
+	"log"
+	"net/http"
+
 	"github.com/gin-gonic/gin" // 导入 Gin 依赖
 	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
-	"log"
-	"net/http"
-
-	"app/api/sayHello"
 )
 
 var (

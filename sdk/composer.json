@@ -16,7 +16,8 @@
         "psr-4": {
             "GPBMetadata\\": "src/GPBMetadata/",
             "SDK\\Api\\": "src/SDK/Api/",
-            "SDK\\": "src/"
+            "SDK\\": "src/",
+            "GOOGLE\\":"src/Google"
         }
     },
     "autoload-dev": {

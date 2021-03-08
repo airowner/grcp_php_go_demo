@@ -18,10 +18,10 @@ build:
   # protoc的 --proto_path -I 选项，提供path
   # 如果需要import proto文件， 那么应该相对于 roots 定义的目录导入
   roots:
-    - proto
+    - app/proto
   # 可选参数 排除目录
   excludes:
-    - proto/xxx
+    - app/proto/xxx
 
 # proto 代码检查
 lint:

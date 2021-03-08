@@ -9,7 +9,7 @@ plugins:
   - name: go
     # The the relative output directory.
     # Required.
-    out: app/api
+    out: app/proto
     # Any options to provide to the plugin.
     # Optional.
     # Can be either a single string or list of strings.
@@ -46,19 +46,19 @@ plugins:
     strategy: directory
 
   - name: go-grpc
-    out: app/api
+    out: app/proto
     opt:
       - paths=source_relative
       - require_unimplemented_servers=false
 
   - name: grpc-gateway
-    out: app/api
+    out: app/proto
     opt:
       - paths=source_relative
       - allow_repeated_fields_in_body=true
 
   - name: openapiv2
-    out: app/api
+    out: app/proto
     opt:
       - allow_repeated_fields_in_body=true
 

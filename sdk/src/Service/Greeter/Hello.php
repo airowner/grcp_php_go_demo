@@ -18,7 +18,7 @@ class Hello
     {
         static $client;
 
-        $hostname = '';
+        $hostname = '127.0.0.1:8080';
         $opts = [
             'credentials' => ChannelCredentials::createInsecure(),
         ];
@@ -30,8 +30,10 @@ class Hello
         return $client;
     }
 
-    public function say(string $name): string
+    public function say(string $name, $timeout = null): string
     {
+        // curl_init();
+        // curl_exec($ch, $url);
         $request = new HelloRequest();
         $request->setName($name);
         $header = new RequestHeader();
@@ -41,6 +43,7 @@ class Hello
         [$reply, $status] = $this->client()->say($request)->wait();
 
         /**
+         * status object
          * object(stdClass)#15 (3) {
          *  ["metadata"]=>
          *  array(0) {

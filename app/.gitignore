@@ -1,3 +1,4 @@
-/api/
+/proto/**/*.go
+/proto/**/*.json
 go.sum
 /vendor/

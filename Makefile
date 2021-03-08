@@ -9,8 +9,8 @@ generate-php:
 	find $(GOOGLEAPI_DIR)/google/api -name "*.proto" -exec \
 		protoc -I $(GOOGLEAPI_DIR) --php_out=./$(PHP_OUT) --grpc_out=./$(PHP_OUT) \
     --plugin=protoc-gen-grpc=./grpc_php_plugin {} \;
-	find ./proto -name "*.proto" -exec \
-		protoc -I ./proto -I $(GOOGLEAPI_DIR) --php_out=./$(PHP_OUT) --grpc_out=./$(PHP_OUT) \
+	find ./app/proto -name "*.proto" -exec \
+		protoc -I ./app/proto -I $(GOOGLEAPI_DIR) --php_out=./$(PHP_OUT) --grpc_out=./$(PHP_OUT) \
     --plugin=protoc-gen-grpc=./grpc_php_plugin {} \;
 
 .PHONY: generate-go
@@ -43,10 +43,13 @@ install-go:
 		github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2@latest \
 		github.com/bufbuild/buf/cmd/buf@latest
 
-PHP_DEPENDENCES=autoconf automake libtool shtool bazel
 .PHONY: install-php
-install-php:
-	$(foreach exec,$(PHP_DEPENDENCES),$(if $(shell which $(exec)),,$(error "No bazel in $(PATH), consider doing install $(exec)")))
+install-php: install-php-protoc-plugin install-php-dependence
+
+PHP_DEPENDENCES=autoconf automake libtool shtool bazel
+.PHONY: install-php-protoc-plugin
+install-php-protoc-plugin:
+	$(foreach exec,$(PHP_DEPENDENCES),$(if $(shell which $(exec)),$(shell echo $(exec) already installed),$(error "No bazel in $(PATH), consider doing install $(exec)")))
 	git clone --recursive --depth 1 --shallow-submodules -b v1.35.0 https://github.com/grpc/grpc
 	cd grpc
 	#bazel build :all
@@ -54,3 +57,10 @@ install-php:
 	cd ..
 	cp grpc/bazel-bin/src/compiler/grpc_php_plugin ./
 	rm -rf grpc
+
+.PHONY: install-php-dependence
+install-php-dependence:
+    pecl update
+    pecl install grpc
+    pecl install protobuf
+    composer require grpc/grpc

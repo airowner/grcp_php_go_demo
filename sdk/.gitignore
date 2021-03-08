@@ -27,3 +27,4 @@ composer.lock
 websrc/src/api/base.js
 /src/GPBMetadata/
 /src/SDK/
+/src/Google/
